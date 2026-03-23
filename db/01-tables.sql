@@ -30,3 +30,9 @@ CREATE TABLE "mediaStatus"
     "user"      BIGINT NOT NULL,
     "date"      DATE
 );
+
+ALTER TABLE "mediaStatus"
+    ADD FOREIGN KEY ("mediaId") REFERENCES "media" ("id") ON DELETE CASCADE;
+
+ALTER TABLE "mediaStatus"
+    ADD FOREIGN KEY ("user") REFERENCES "users" ("id");
