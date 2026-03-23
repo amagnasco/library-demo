@@ -1,0 +1,100 @@
+# Library demo app
+# docker compose -f compose.yaml up --build -d
+
+name: library-demo
+
+services:
+
+    # vite react.js
+    frontend:
+        build:
+            context: ./frontend
+            target: demo
+        ports:
+            - "5173:5173"
+        environment:
+            - CHOKIDAR_USEPOLLING=true # for dev live server
+            - VITE_HOSTNAME=https://localhost
+        depends_on:
+            backend:
+                condition: service_healthy
+        networks:
+            - net-library
+        restart: on-failure
+        healthcheck:
+            test: wget --no-verbose --tries=1 --spider localhost:5173 || exit 1
+            start_period: 15s
+            interval: 10s
+            timeout: 3s
+            retries: 5
+
+    # nginx reverse proxy
+    proxy:
+        build:
+            context: ./nginx
+            target: demo
+        ports:
+            - "80:80"
+        depends_on:
+            backend:
+                condition: service_healthy
+            frontend:
+                condition: service_healthy
+        networks:
+            - net-library
+        restart: on-failure
+        healthcheck:
+            test: curl --fail http://localhost/ || exit 1
+            start_period: 10s
+            interval: 30s
+            timeout: 3s
+            retries: 5
+
+    # express.js server
+    backend:
+        build:
+            context: ./backend
+            target: demo
+        ports:
+            - "5000:5000"
+        env_file: .env
+        environment:
+            - ENTORNO=dev
+        depends_on:
+            db:
+                condition: service_healthy
+        networks:
+            - net-library
+        restart: on-failure
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready --host=$$POSTGRES_HOST --username=$$POSTGRES_USER --dbname=$$POSTGRES_BASE --port=$$POSTGRES_PORT" ]
+            start_period: 30s
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+    # postgres
+    db:
+        build:
+            context: ./db
+            target: demo
+        env_file: .env
+        shm_size: '1gb'
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - net-library
+        restart: on-failure
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready --host=127.0.0.1 --username=$$POSTGRES_USER --dbname=$$POSTGRES_BASE --port=$$POSTGRES_PORT" ]
+            start_period: 10s
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+networks:
+    net-library:
+volumes:
+    db-data: { }
