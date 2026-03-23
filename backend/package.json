@@ -1,0 +1,46 @@
+{
+    "name": "library-demo-back",
+    "version": "0.0.1",
+    "description": "",
+    "main": "./dist/src/index.js",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "tsc && node ./dist/index.js",
+        "exec": "node ./dist/index.js",
+        "build": "tsc -p .",
+        "test": "jest --verbose",
+        "testUnit": "jest --silent --testNamePattern=UNIT",
+        "testIntegration": "jest --verbose --testNamePattern=INTEGRATION",
+        "testWatch": "jest --watchAll --testNamePattern=UNIT"
+    },
+    "author": "Alessandro G. Magnasco",
+    "license": "AGPL-3.0-or-later",
+    "dependencies": {
+        "argon2": "^0.31.2",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "fs": "^0.0.1-security",
+        "jsonwebtoken": "^9.0.2",
+        "mime-types": "^3.0.1",
+        "pg": "^8.11.3"
+    },
+    "devDependencies": {
+        "@types/argon2": "^0.14.1",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^4.17.21",
+        "@types/jest": "^29.5.12",
+        "@types/jsonwebtoken": "^9.0.6",
+        "@types/node": "^20.14.11",
+        "@types/pg": "^8.11.6",
+        "@types/supertest": "^6.0.2",
+        "cross-env": "^7.0.3",
+        "jest": "^29.7.0",
+        "mock-fs": "^5.2.0",
+        "supertest": "^6.3.4",
+        "ts-jest": "^29.2.4",
+        "ts-node": "^10.9.2",
+        "typedoc": "^0.26.7",
+        "typescript": "^5.5.3"
+    }
+}
