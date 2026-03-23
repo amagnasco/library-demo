@@ -15,5 +15,5 @@ FROM postgres:18.3-bookworm AS base
     USER $POSTGRES_USER
 
 # set up db
-FROM base AS production
+FROM base AS demo
     COPY 0*.sql /docker-entrypoint-initdb.d/
