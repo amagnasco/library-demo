@@ -12,7 +12,7 @@ export const mediaModel = {
     }),
 
     addOne: action((state, media: Media) => {
-        state.items.unshift(media) // add to top
+        state.items.unshift(media)
     }),
 
     updateOne: action((state, media: Media) => {

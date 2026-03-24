@@ -19,6 +19,8 @@ export default function MediaPanel({
     const updateMedia = useStoreActions(a => a.media.update)
     const removeMedia = useStoreActions(a => a.media.remove)
 
+    const mediaStatus = status.filter(s => s.mediaId === media.id)
+
     const [editing, setEditing] = useState(false)
     const [form, setForm] = useState({
         title: media.title,
@@ -38,9 +40,9 @@ export default function MediaPanel({
     }, [media.id])
 
     const current = (() => {
-        if (!status.length) return 'ready'
-            const sorted = [...status].sort(
-                (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        if (!mediaStatus.length) return 'ready'
+            const sorted = [...mediaStatus].sort(
+                (a, b) => b.date.getTime() - a.date.getTime()
             )
             return sorted[0].type
     })()
@@ -66,8 +68,15 @@ export default function MediaPanel({
         }
     }
 
-    const handleCheckout = () => checkoutMedia(media.id)
-    const handleReturn = () => returnMedia(media.id)
+    const handleCheckout = () => {
+        if (!user?.id) return alert('No current user!')
+            checkoutMedia({ mediaId: media.id, userId: user.id })
+    }
+
+    const handleReturn = () => {
+        if (!user?.id) return alert('No current user!')
+            returnMedia({ mediaId: media.id, userId: user.id })
+    }
 
     return (
         <div style={styles.panel}>
@@ -105,10 +114,10 @@ export default function MediaPanel({
         <h4>Status: {current}</h4>
         <table style={styles.table}>
         <tbody>
-        {status.map(s => (
+        {mediaStatus.map(s => (
             <tr key={s.id}>
             <td>{s.type}</td>
-            <td>{new Date(s.created_at).toLocaleString()}</td>
+            <td>{new Date(s.date).toLocaleString()}</td>
             </tr>
         ))}
         </tbody>

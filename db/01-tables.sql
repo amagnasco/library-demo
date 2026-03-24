@@ -16,8 +16,8 @@ CREATE TABLE "media"
     "title"     VARCHAR(100) NOT NULL,
     "creator"   VARCHAR(100) NOT NULL,
     "desc"      TEXT,
-    "tags"      TEXT[],
-    "added"     DATE,
+    "tags"      TEXT,
+    "added"     TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     "active"    BOOLEAN,
     "cost"      INT
 );
@@ -28,7 +28,7 @@ CREATE TABLE "status"
     "mediaId"   BIGINT NOT NULL,
     "type"      VARCHAR(100) NOT NULL,
     "user"      BIGINT NOT NULL,
-    "date"      DATE
+    "date"      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 ALTER TABLE "status"

@@ -16,14 +16,13 @@ export default class StatusService {
 
     async create(data: Partial<pg.Status>): Promise<pg.Status> {
         const res = await pool.query(
-            `INSERT INTO status (mediaId, type, "user", date)
-            VALUES ($1,$2,$3,$4)
+            `INSERT INTO status ("mediaId", type, "user", date)
+            VALUES ($1,$2,$3, NOW())
             RETURNING *`,
             [
                 data.mediaId,
                 data.type,
                 data.user,
-                data.date
             ]
         )
         return this.map(res.rows[0])
@@ -32,7 +31,7 @@ export default class StatusService {
     async update(id: number, data: Partial<pg.Status>): Promise<pg.Status | null> {
         const res = await pool.query(
             `UPDATE status SET
-            mediaId = COALESCE($1, mediaId),
+            "mediaId" = COALESCE($1, "mediaId"),
             type = COALESCE($2, type),
             "user" = COALESCE($3, "user"),
             date = COALESCE($4, date)
@@ -63,7 +62,7 @@ export default class StatusService {
 
         if (filters.mediaIds?.length) {
             values.push(filters.mediaIds)
-            conditions.push(`mediaId = ANY($${values.length})`)
+            conditions.push(`"mediaId" = ANY($${values.length})`)
         }
 
         if (filters.userIds?.length) {

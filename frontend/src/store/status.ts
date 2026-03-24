@@ -17,20 +17,28 @@ export const statusModel = {
         actions.set(data.map(mapStatus))
     }),
 
-    checkout: thunk(async (actions, mediaId: number) => {
-        await DefaultService.postStatus({
-            media_id: mediaId,
-            type: 'loaned'
-        })
-        actions.fetchByMedia(mediaId)
+    checkout: thunk(async (actions, { mediaId, userId }) => {
+        if (!userId) throw new Error('No user ID provided for checkout')
+
+            await DefaultService.postStatus({
+                mediaId,
+                type: 'loaned',
+                date: new Date(),
+                user: userId
+            })
+            actions.fetchByMedia(mediaId)
     }),
 
-    returnMedia: thunk(async (actions, mediaId: number) => {
-        await DefaultService.postStatus({
-            media_id: mediaId,
-            type: 'returned'
-        })
-        actions.fetchByMedia(mediaId)
+    returnMedia: thunk(async (actions, { mediaId, userId }) => {
+        if (!userId) throw new Error('No user ID provided for return')
+
+            await DefaultService.postStatus({
+                mediaId,
+                type: 'returned',
+                date: new Date(),
+                user: userId
+            })
+            actions.fetchByMedia(mediaId)
     }),
 
     fetchAll: thunk(async (actions) => {

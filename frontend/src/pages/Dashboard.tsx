@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 import Layout from '../components/Layout'
@@ -42,23 +42,23 @@ export default function Dashboard() {
         )
     }
 
-    function getMediaStatusMap(status: any[]) {
+    function getMediaStatusMap(status: Status[]) {
         const map: Record<number, string> = {}
 
         const sorted = [...status].sort(
-            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            (a, b) => b.date.getTime() - a.date.getTime()
         )
 
         for (const s of sorted) {
-            if (!map[s.media_id]) {
-                map[s.media_id] = s.type
+            if (!map[s.mediaId]) {
+                map[s.mediaId] = s.type
             }
         }
 
         return map
     }
 
-    const statusMap = getMediaStatusMap(allStatus)
+    const statusMap = useMemo(() => getMediaStatusMap(allStatus), [allStatus])
 
     return (
         <Layout
@@ -68,8 +68,8 @@ export default function Dashboard() {
         rightPanel={
             selected && (
                 <MediaPanel
-                media={selected}
-                onClose={() => selectMedia(null)}
+                    media={selected}
+                    onClose={() => selectMedia(null)}
                 />
             )
         }
@@ -82,10 +82,10 @@ export default function Dashboard() {
                     <div style={styles.grid}>
                     {filtered.map((m: any) => (
                         <MediaCard
-                        key={m.id}
-                        media={m}
-                        status={statusMap[m.id]}
-                        onClick={() => selectMedia(m)}
+                            key={m.id}
+                            media={m}
+                            status={statusMap[m.id]}
+                            onClick={() => selectMedia(m)}
                         />
                     ))}
                     </div>
