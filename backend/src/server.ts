@@ -1,10 +1,11 @@
 import express, {Express, Request, Response} from 'express';
 import cors from 'cors';
 import AuthCTR from './routes/Auth.js';
-//import ApiCTR from './routes/Api.js';
+import ApiCTR from './routes/Api.js';
+import { requireAuth } from './middleware/auth.js'
 
 const authCTR = new AuthCTR()
-//const apiCTR = new ApiCTR().getRouter()
+const apiCTR = new ApiCTR()
 
 /** API Server */
 class Server {
@@ -40,14 +41,14 @@ class Server {
         })
 
         // no-token-yet route
-        this.app.use('/auth', authCTR.login.bind(authCTR))
+        this.app.post('/auth', authCTR.login.bind(authCTR))
 
         // authenticated route
-        //this.app.use('/api', apiCTR);
+        this.app.use('/api', requireAuth, apiCTR.getRouter())
 
         // catch-all
         this.app.all('*', function(req: Request, res: Response){
-            console.error(`invalid route! ${req.route.path}`)
+            console.error(`invalid route! ${req.method} ${req.path}`)
             return res.status(400).json({ success: false, error: "invalid route!"})
         })
     }

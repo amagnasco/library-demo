@@ -16,7 +16,7 @@ CREATE TABLE "media"
     "title"     VARCHAR(100) NOT NULL,
     "creator"   VARCHAR(100) NOT NULL,
     "desc"      TEXT,
-    "tags"      TEXT,
+    "tags"      TEXT[],
     "added"     DATE,
     "active"    BOOLEAN,
     "cost"      INT
