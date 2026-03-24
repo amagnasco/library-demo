@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "generate:api": "openapi --input src/openapi.yaml --output src/apis/generated --client fetch",
     "build": "tsc && vite build src",
     "prod": "vite serve src",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
@@ -26,6 +27,8 @@
     "easy-peasy": "^6.0.5",
     "i18next": "^23.7.11",
     "i18next-browser-languagedetector": "^7.2.0",
+    "jwt-decode": "^4.0.0",
+    "openapi-typescript-codegen": "^0.30.0",
     "react": "^18.0",
     "react-i18next": "^13.5.0",
     "react-router-dom": "^7.13.2",
