@@ -22,7 +22,7 @@ by Alessandro G. Magnasco 2026, AGPLv3
 - [x] installation instructions
 - [x] demo users created
 - [x] docker online
-- [] database online
+- [x] database online
 - [] nginx online
 - [] backend online
 - [] frontend online
