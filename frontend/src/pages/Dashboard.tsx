@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useTranslation } from 'react-i18next'
 
 import Layout from '../components/Layout'
 import MediaCard from '../components/MediaCard'
@@ -7,6 +8,8 @@ import MediaPanel from '../components/MediaPanel'
 import NewMediaForm from '../components/NewMediaForm'
 
 export default function Dashboard() {
+
+    const { t } = useTranslation()
 
     const media = useStoreState(s => s.media.items)
     const selected = useStoreState(s => s.media.selected)
@@ -77,7 +80,7 @@ export default function Dashboard() {
 
             <div style={styles.content}>
                 {filtered.length === 0 ? (
-                    <div style={styles.empty}>No media found</div>
+                    <div style={styles.empty}>{t('main.empty')}</div>
                 ) : (
                     <div style={styles.grid}>
                     {filtered.map((m: any) => (

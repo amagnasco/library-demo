@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useStoreActions } from 'easy-peasy'
+import { useTranslation } from 'react-i18next'
 
 export default function NewMediaForm() {
+
+    const { t } = useTranslation()
 
     const create = useStoreActions((a: any) => a.media.create)
 
@@ -38,11 +41,11 @@ export default function NewMediaForm() {
     return (
         <div style={{ width: '100%', maxWidth: '300px' }}>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            <input placeholder="Title" value={form.title} onChange={e => handleChange('title', e.target.value)} />
-            <input placeholder="Author" value={form.creator} onChange={e => handleChange('creator', e.target.value)} />
-            <textarea placeholder="Description" value={form.desc} onChange={e => handleChange('desc', e.target.value)} />
-            <input placeholder="Tags (comma separated)" value={form.tags} onChange={e => handleChange('tags', e.target.value)} />
-            <button type="submit">Create</button>
+            <input placeholder={t('media.title')} value={form.title} onChange={e => handleChange('title', e.target.value)} />
+            <input placeholder={t('media.creator')} value={form.creator} onChange={e => handleChange('creator', e.target.value)} />
+            <textarea placeholder={t('media.desc')} value={form.desc} onChange={e => handleChange('desc', e.target.value)} />
+            <input placeholder={t('media.tags')} value={form.tags} onChange={e => handleChange('tags', e.target.value)} />
+            <button type="submit">{t('main.submit')}</button>
             </form>
         </div>
     )

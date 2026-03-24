@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useTranslation } from 'react-i18next'
 import type { Media } from '../types/pg'
 
 export default function MediaPanel({
@@ -9,6 +10,8 @@ export default function MediaPanel({
     media: Media
     onClose: () => void
 }) {
+    const { t } = useTranslation()
+
     const status = useStoreState(s => s.status.items)
     const user = useStoreState(s => s.user.current)
 
@@ -62,19 +65,19 @@ export default function MediaPanel({
     }
 
     const handleDelete = async () => {
-        if (confirm('Are you sure you want to delete this media?')) {
+        if (confirm(t('media.erase'))) {
             await removeMedia(media.id)
             onClose()
         }
     }
 
     const handleCheckout = () => {
-        if (!user?.id) return alert('No current user!')
+        if (!user?.id) return alert(t('login.error'))
             checkoutMedia({ mediaId: media.id, userId: user.id })
     }
 
     const handleReturn = () => {
-        if (!user?.id) return alert('No current user!')
+        if (!user?.id) return alert(t('login.error'))
             returnMedia({ mediaId: media.id, userId: user.id })
     }
 
@@ -88,35 +91,35 @@ export default function MediaPanel({
 
         {editing && user?.type === 'admin' ? (
             <div style={styles.editForm}>
-            <input value={form.title} onChange={e => handleChange('title', e.target.value)} placeholder="Title" />
-            <input value={form.creator} onChange={e => handleChange('creator', e.target.value)} placeholder="Creator" />
-            <textarea value={form.desc} onChange={e => handleChange('desc', e.target.value)} placeholder="Description" />
-            <input value={form.tags} onChange={e => handleChange('tags', e.target.value)} placeholder="Tags (comma separated)" />
+            <input value={form.title} onChange={e => handleChange('title', e.target.value)} placeholder={t('media.title')} />
+            <input value={form.creator} onChange={e => handleChange('creator', e.target.value)} placeholder={t('media.creator')} />
+            <textarea value={form.desc} onChange={e => handleChange('desc', e.target.value)} placeholder={t('media.desc')} />
+            <input value={form.tags} onChange={e => handleChange('tags', e.target.value)} placeholder={t('media.tags')} />
             <div style={styles.btnRow}>
-            <button style={styles.smallBtn} onClick={handleUpdate}>Save</button>
-            <button style={styles.smallBtn} onClick={() => setEditing(false)}>Cancel</button>
+            <button style={styles.smallBtn} onClick={handleUpdate}>{t('main.save')}</button>
+            <button style={styles.smallBtn} onClick={() => setEditing(false)}>{t('main.cancel')}</button>
             </div>
             </div>
         ) : (
             <div style={styles.meta}>
-            <div><b>Creator:</b> {media.creator}</div>
-            <div><b>Description:</b> {media.desc}</div>
-            <div><b>Tags:</b> {media.tags?.join(', ')}</div>
+            <div><b>{t('media.creator')}:</b> {media.creator}</div>
+            <div><b>{t('media.desc')}:</b> {media.desc}</div>
+            <div><b>{t('media.tags')}:</b> {media.tags?.join(', ')}</div>
             {user?.type === 'admin' && (
                 <div style={styles.btnRow}>
-                <button style={styles.smallBtn} onClick={() => setEditing(true)}>Edit</button>
-                <button style={styles.smallBtn} onClick={handleDelete}>Delete</button>
+                <button style={styles.smallBtn} onClick={() => setEditing(true)}>{t('main.edit')}</button>
+                <button style={styles.smallBtn} onClick={handleDelete}>{t('main.erase')}</button>
                 </div>
             )}
             </div>
         )}
 
-        <h4>Status: {current}</h4>
+        <h4>Status: {t('status.' + current)}</h4>
         <table style={styles.table}>
         <tbody>
         {mediaStatus.map(s => (
             <tr key={s.id}>
-            <td>{s.type}</td>
+            <td>{t('status.' + s.type)}</td>
             <td>{new Date(s.date).toLocaleString()}</td>
             </tr>
         ))}
@@ -125,9 +128,9 @@ export default function MediaPanel({
 
         <div style={styles.btnRow}>
         {current !== 'loaned' ? (
-            <button style={styles.smallBtn} onClick={handleCheckout}>Checkout</button>
+            <button style={styles.smallBtn} onClick={handleCheckout}>{t('status.checkout')}</button>
         ) : (
-            <button style={styles.smallBtn} onClick={handleReturn}>Return</button>
+            <button style={styles.smallBtn} onClick={handleReturn}>{t('status.checkin')}</button>
         )}
         </div>
         </div>

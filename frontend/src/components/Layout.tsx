@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type LayoutProps = {
     children: React.ReactNode
@@ -15,6 +16,8 @@ export default function Layout({
     rightPanel,
     onSearch
 }: LayoutProps) {
+
+    const { t } = useTranslation()
 
     const [query, setQuery] = useState('')
 
@@ -39,12 +42,12 @@ export default function Layout({
 
         <div style={styles.topbar}>
             <div style={styles.logo}>
-            Library Demo
+            {t('login.title')}
             </div>
 
             <div style={styles.search}>
                 <input
-                placeholder="Search title, author, tags..."
+                placeholder={t('main.search')}
                 value={query}
                 onChange={e => {
                     setQuery(e.target.value);
@@ -56,7 +59,7 @@ export default function Layout({
 
             <div style={styles.userArea}>
             <span>{user?.login}</span>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout}>{t('main.logout')}</button>
             </div>
         </div>
 
@@ -66,7 +69,7 @@ export default function Layout({
         }}>
             {user?.type === 'admin' && (
                 <aside style={styles.sidebar}>
-                <h3>New Media</h3>
+                <h3>{t('media.add')}</h3>
                 {leftPanel}
                 </aside>
             )}
