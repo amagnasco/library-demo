@@ -29,9 +29,9 @@ export default function Login() {
             }
 
             const data = await res.json()
-            localStorage.setItem('token', data.token)
 
-            navigate('/app')
+            localStorage.setItem('token', data.token)
+            window.location.href = '/app'
         } catch (err) {
             console.error(err)
             alert(t('login.error'))
