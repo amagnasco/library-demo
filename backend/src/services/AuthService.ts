@@ -1,11 +1,11 @@
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
+import pool from './DbService.js'
 
 // authentication manager
 export default class AuthService {
 
     constructor(
-        private users: pg.User[],
         private jwtSecret: string = 'demo'
     ) {}
 
@@ -19,16 +19,21 @@ export default class AuthService {
             throw new Error('missing credentials')
         }
 
-        const user = this.users.find(u => u.login === login)
+        const result = await pool.query(
+            `SELECT * FROM users WHERE login = $1 LIMIT 1`,
+            [login]
+        )
+
+        const user: pg.User | undefined = result.rows[0]
 
         if (!user) throw new Error('user not found')
-        if (!user.active) throw new Error('user inactive')
+            if (!user.active) throw new Error('user inactive')
 
-        const match = await argon2.verify(user.password, password)
-        if (!match) throw new Error('invalid password')
+                const match = await argon2.verify(user.password, password)
+                if (!match) throw new Error('invalid password')
 
-        const { password: _, ...clean } = user
-        return clean
+                    const { password: _, ...clean } = user
+                    return clean
     }
 
     private signToken(user: Omit<pg.User, 'password'>): string {

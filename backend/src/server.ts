@@ -1,9 +1,10 @@
 import express, {Express, Request, Response} from 'express';
 import cors from 'cors';
-//import authController from './routes/Auth.js';
+import AuthCTR from './routes/Auth.js';
 //import ApiCTR from './routes/Api.js';
 
-//const apiController = new ApiCTR().getRouter()
+const authCTR = new AuthCTR()
+//const apiCTR = new ApiCTR().getRouter()
 
 /** API Server */
 class Server {
@@ -39,10 +40,10 @@ class Server {
         })
 
         // no-token-yet route
-        //this.app.use('/auth', authController)
+        this.app.use('/auth', authCTR.login.bind(authCTR))
 
         // authenticated route
-        //this.app.use('/api', apiController);
+        //this.app.use('/api', apiCTR);
 
         // catch-all
         this.app.all('*', function(req: Request, res: Response){

@@ -1,17 +1,7 @@
 import { Request, Response } from 'express'
 import AuthService from '../services/AuthService.js'
 
-const users:pg.User[] = [
-    {
-        id: 1,
-        active: true,
-        login: 'admin',
-        password: '$argon2id$...', // hashed
-        type: 'admin'
-    }
-]
-
-const authService = new AuthService(users)
+const authService = new AuthService()
 
 // for unauthenticated routes
 export default class AuthCTR {
