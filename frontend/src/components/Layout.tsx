@@ -42,14 +42,17 @@ export default function Layout({
             Library Demo
             </div>
 
-            <form onSubmit={handleSearch} style={styles.search}>
-            <input
-            placeholder="Search title, author, tags..."
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            style={styles.searchInput}
-            />
-            </form>
+            <div style={styles.search}>
+                <input
+                placeholder="Search title, author, tags..."
+                value={query}
+                onChange={e => {
+                    setQuery(e.target.value);
+                    onSearch?.(e.target.value);
+                }}
+                style={styles.searchInput}
+                />
+            </div>
 
             <div style={styles.userArea}>
             <span>{user?.login}</span>
