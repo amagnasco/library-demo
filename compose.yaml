@@ -14,7 +14,7 @@ services:
             - "5173:5173"
         environment:
             - CHOKIDAR_USEPOLLING=true # for dev live server
-            - VITE_HOSTNAME=https://localhost
+            - VITE_HOSTNAME=http://localhost
         depends_on:
             backend:
                 condition: service_healthy

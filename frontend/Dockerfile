@@ -17,5 +17,6 @@ FROM os AS demo
     WORKDIR /app
     COPY --chown=node:node *.json .
     COPY --from=build --chown=node:node /app/node_modules ./node_modules
+    COPY --chown=node:node vite.config.ts ./
     COPY --chown=node:node ./src ./src
     CMD [ "npm", "run", "dev" ]
