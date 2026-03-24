@@ -29,7 +29,6 @@
     "lucide-react": "^0.358.0",
     "react": "^18.2.0",
     "react-i18next": "^13.5.0",
-    "react-router-dom": "^6.20.0",
     "styled-components": "^6.1.11",
     "typescript-eslint": "^7.17.0"
   },

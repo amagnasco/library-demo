@@ -4,10 +4,10 @@ by Alessandro G. Magnasco 2026, AGPLv3
 > This is a full stack demo library management app. It showcases a simple Typescript, React, Express, NGINX, Node, Postgres, and Docker setup that was written in an afternoon. This is NOT intended to be a secured production application and does not contain SSL.
 
 ### Installation and removal:
+- Requirements: Git, GNU Make, Docker
 - Clone the git repository https://github.com/amagnasco/library-demo and enter it
 - Rename '.env.example' to '.env', and edit it if you want to add API keys.
 - In a shell, run "make demo"
-    > if you don't have GNU Make, run docker compose -f compose.yaml up --build -d
 - Navigate to http://localhost/
 - To remove, run "make clean" and delete the folder
 
@@ -21,7 +21,7 @@ by Alessandro G. Magnasco 2026, AGPLv3
 - [x] architecture design and schemas
 - [x] installation instructions
 - [x] demo users created
-- [] docker online
+- [x] docker online
 - [] database online
 - [] nginx online
 - [] backend online

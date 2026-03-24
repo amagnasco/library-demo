@@ -3,7 +3,7 @@ declare global {
 
         type locales = 'en' | 'es' | 'fr'
 
-        interface user {
+        interface User {
             id: number
             active: boolean
             login: string
@@ -13,7 +13,7 @@ declare global {
             phone?: string
         }
 
-        interface media {
+        interface Media {
             id: number
             type: 'book'
             title: string
@@ -25,7 +25,7 @@ declare global {
             cost?: number
         }
 
-        interface mediaStatus {
+        interface MediaStatus {
             id: number
             mediaId: number
             type: 'ready' | 'loaned' | 'returned'

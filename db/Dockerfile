@@ -5,15 +5,13 @@
 # debian bookworm
 FROM postgres:18.3-bookworm AS base
 
-    # definir locale
     RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
     ENV LANG en_US.utf8
 
-    # instalar cliente postgres para healthcheck
-    RUN apt-get update && apt-get install -y postgresql-client micro
+    RUN apt-get update && apt-get install -y micro #postgresql-client
 
-    USER $POSTGRES_USER
+    #USER $POSTGRES_USER
 
 # set up db
 FROM base AS demo
-    COPY 0*.sql /docker-entrypoint-initdb.d/
+    COPY *.sql /docker-entrypoint-initdb.d/

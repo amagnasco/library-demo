@@ -79,16 +79,16 @@ services:
             context: ./db
             target: demo
         env_file: .env
-        shm_size: '1gb'
+        #shm_size: '200mb'
         volumes:
-            - db-data:/var/lib/postgresql/data
+            - db-data:/var/lib/postgresql
         ports:
             - "5432:5432"
         networks:
             - net-library
         restart: on-failure
         healthcheck:
-            test: [ "CMD-SHELL", "pg_isready --host=127.0.0.1 --username=$$POSTGRES_USER --dbname=$$POSTGRES_BASE --port=$$POSTGRES_PORT" ]
+            test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -p $$POSTGRES_PORT || exit 1" ]
             start_period: 10s
             interval: 30s
             timeout: 10s
