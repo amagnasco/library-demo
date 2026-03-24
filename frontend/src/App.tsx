@@ -1,9 +1,16 @@
+import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 
 export default function App() {
-    const isAuthenticated = !!localStorage.getItem('token')
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    useEffect(() => {
+        setIsAuthenticated(!!localStorage.getItem('token'))
+    }, [])
+
 
     return (
         <Routes>
