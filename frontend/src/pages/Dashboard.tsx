@@ -43,6 +43,7 @@ export default function Dashboard() {
         <Layout
         user={user}
         onSearch={handleSearch}
+        leftPanel={user?.type === 'admin' && <NewMediaForm />}
         rightPanel={
             selected && (
                 <MediaPanel
@@ -52,12 +53,6 @@ export default function Dashboard() {
             )
         }
         >
-
-        {user?.type === 'admin' && (
-            <div leftPanel>
-            <NewMediaForm />
-            </div>
-        )}
 
         {filtered.length === 0 ? (
             <div style={styles.empty}>

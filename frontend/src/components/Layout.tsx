@@ -1,16 +1,20 @@
 import { useState } from 'react'
 
-export default function Layout({
-    children,
-    rightPanel,
-    user,
-    onSearch
-}: {
+type LayoutProps = {
     children: React.ReactNode
+    leftPanel?: React.ReactNode
     rightPanel?: React.ReactNode
     user?: any
     onSearch?: (q: string) => void
-}) {
+}
+
+export default function Layout({
+    user,
+    children,
+    leftPanel,
+    rightPanel,
+    onSearch
+}: LayoutProps) {
 
     const [query, setQuery] = useState('')
 
@@ -51,7 +55,7 @@ export default function Layout({
             {user?.type === 'admin' && (
                 <aside style={styles.sidebar}>
                 <h3>New Media</h3>
-                {children && (children as any).props?.leftPanel}
+                {leftPanel}
                 </aside>
             )}
 
@@ -71,7 +75,7 @@ export default function Layout({
 
 const styles = {
     wrapper: {
-        height: '100vh',
+        height: '98vh',
         display: 'flex',
         flexDirection: 'column'
     },
