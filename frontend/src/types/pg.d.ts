@@ -25,7 +25,7 @@ declare global {
             cost?: number
         }
 
-        interface MediaStatus {
+        interface Status {
             id: number
             mediaId: number
             type: 'ready' | 'loaned' | 'returned'

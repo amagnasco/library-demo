@@ -22,7 +22,7 @@ CREATE TABLE "media"
     "cost"      INT
 );
 
-CREATE TABLE "mediaStatus"
+CREATE TABLE "status"
 (
     "id"        SERIAL UNIQUE NOT NULL,
     "mediaId"   BIGINT NOT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE "mediaStatus"
     "date"      DATE
 );
 
-ALTER TABLE "mediaStatus"
+ALTER TABLE "status"
     ADD FOREIGN KEY ("mediaId") REFERENCES "media" ("id") ON DELETE CASCADE;
 
-ALTER TABLE "mediaStatus"
+ALTER TABLE "status"
     ADD FOREIGN KEY ("user") REFERENCES "users" ("id");

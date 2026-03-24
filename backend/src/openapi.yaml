@@ -127,7 +127,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MediaStatus'
+                  $ref: '#/components/schemas/Status'
 
     post:
       summary: Create media status
@@ -136,14 +136,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MediaStatusInput'
+              $ref: '#/components/schemas/StatusInput'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MediaStatus'
+                $ref: '#/components/schemas/Status'
 
   /media-status/{id}:
     get:
@@ -160,7 +160,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MediaStatus'
+                $ref: '#/components/schemas/Status'
 
     patch:
       summary: Update media status
@@ -175,14 +175,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MediaStatusUpdate'
+              $ref: '#/components/schemas/StatusUpdate'
       responses:
         '200':
           description: Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MediaStatus'
+                $ref: '#/components/schemas/Status'
 
   /media/read-all:
     post:
@@ -251,7 +251,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MediaStatus'
+                  $ref: '#/components/schemas/Status'
 
 components:
   schemas:
@@ -372,7 +372,7 @@ components:
         cost:
           type: number
 
-    MediaStatus:
+    Status:
       type: object
       required:
         - id
@@ -394,7 +394,7 @@ components:
           type: string
           format: date-time
 
-    MediaStatusInput:
+    StatusInput:
       type: object
       required:
         - mediaId
@@ -413,7 +413,7 @@ components:
           type: string
           format: date-time
 
-    MediaStatusUpdate:
+    StatusUpdate:
       type: object
       properties:
         mediaId:
