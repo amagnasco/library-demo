@@ -40,7 +40,7 @@ export default class MediaService {
             type = COALESCE($1, type),
             title = COALESCE($2, title),
             creator = COALESCE($3, creator),
-            desc = COALESCE($4, "desc"),
+            "desc" = COALESCE($4, "desc"),
             tags = COALESCE($5, tags),
             added = COALESCE($6, added),
             active = COALESCE($7, active),

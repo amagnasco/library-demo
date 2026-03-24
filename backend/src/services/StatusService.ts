@@ -33,18 +33,18 @@ export default class StatusService {
         const res = await pool.query(
             `UPDATE status SET
             mediaId = COALESCE($1, mediaId),
-                                     type = COALESCE($2, type),
-                                     "user" = COALESCE($3, "user"),
-                                     date = COALESCE($4, date)
-                                     WHERE id = $5
-                                     RETURNING *`,
-                                     [
-                                         data.mediaId,
-                                     data.type,
-                                     data.user,
-                                     data.date,
-                                     id
-                                     ]
+            type = COALESCE($2, type),
+            "user" = COALESCE($3, "user"),
+            date = COALESCE($4, date)
+            WHERE id = $5
+            RETURNING *`,
+            [
+                data.mediaId,
+                data.type,
+                data.user,
+                data.date,
+                id
+            ]
         )
 
         if (!res.rows[0]) return null

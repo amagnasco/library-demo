@@ -2,15 +2,22 @@ import type { Media, Status, User } from '../types/pg'
 
 export const mapMedia = (m: any): Media => ({
     id: m.id,
+    type: m.type ?? 'book',          // default to 'book' if missing
     title: m.title,
-    active: m.active
+    creator: m.creator ?? '',
+    desc: m.desc ?? '',
+    tags: Array.isArray(m.tags) ? m.tags : [],
+    added: new Date(m.added || m.created_at || Date.now()),
+    active: m.active ?? true,
+    cost: m.cost
 })
 
 export const mapStatus = (s: any): Status => ({
     id: s.id,
-    media_id: s.media_id,
+    mediaId: s.media_id ?? s.mediaId,
     type: s.type,
-    created_at: s.created_at
+    user: s.user ?? 0,
+    date: new Date(s.date || s.created_at)
 })
 
 export function mapUser(u: any): User {
