@@ -11,16 +11,19 @@ export default function Dashboard() {
     const media = useStoreState(s => s.media.items)
     const selected = useStoreState(s => s.media.selected)
     const user = useStoreState(s => s.user.current)
+    const allStatus = useStoreState(s => s.status.items)
 
     const fetchMedia = useStoreActions(a => a.media.fetch)
-    const fetchUser = useStoreActions(a => a.user.fetch)
     const selectMedia = useStoreActions(a => a.media.select)
+    const fetchUser = useStoreActions(a => a.user.fetch)
+    const fetchAllStatus = useStoreActions(a => a.status.fetchAll)
 
     const [filtered, setFiltered] = useState<any[]>([])
 
     useEffect(() => {
         fetchMedia()
         fetchUser()
+        fetchAllStatus()
     }, [])
 
     useEffect(() => {
@@ -39,6 +42,24 @@ export default function Dashboard() {
         )
     }
 
+    function getMediaStatusMap(status: any[]) {
+        const map: Record<number, string> = {}
+
+        const sorted = [...status].sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        )
+
+        for (const s of sorted) {
+            if (!map[s.media_id]) {
+                map[s.media_id] = s.type
+            }
+        }
+
+        return map
+    }
+
+    const statusMap = getMediaStatusMap(allStatus)
+
     return (
         <Layout
         user={user}
@@ -54,21 +75,23 @@ export default function Dashboard() {
         }
         >
 
-        {filtered.length === 0 ? (
-            <div style={styles.empty}>
-            No media found
+            <div style={styles.content}>
+                {filtered.length === 0 ? (
+                    <div style={styles.empty}>No media found</div>
+                ) : (
+                    <div style={styles.grid}>
+                    {filtered.map((m: any) => (
+                        <MediaCard
+                        key={m.id}
+                        media={m}
+                        status={statusMap[m.id]}
+                        onClick={() => selectMedia(m)}
+                        />
+                    ))}
+                    </div>
+                )}
             </div>
-        ) : (
-            <div style={styles.grid}>
-            {filtered.map((m: any) => (
-                <MediaCard
-                key={m.id}
-                media={m}
-                onClick={() => selectMedia(m)}
-                />
-            ))}
-            </div>
-        )}
+
         </Layout>
     )
 }
@@ -76,13 +99,18 @@ export default function Dashboard() {
 const styles = {
     grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
         gap: '10px',
-        background: 'black',
-        color: 'white'
+        //background: 'black',
+        color: 'white',
+        marginLeft: '10px'
     },
     empty: {
         padding: '20px',
         textAlign: 'center'
+    },
+    content: {
+        padding: '10px',
+        boxSizing: 'border-box'
     }
 }

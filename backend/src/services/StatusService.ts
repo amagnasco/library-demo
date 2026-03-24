@@ -50,4 +50,48 @@ export default class StatusService {
         if (!res.rows[0]) return null
             return this.map(res.rows[0])
     }
+
+    async readAll(filters: {
+        mediaIds?: number[],
+        userIds?: number[],
+        type?: 'ready' | 'loaned' | 'returned',
+        fromDate?: string,
+        toDate?: string
+    }): Promise<pg.Status[]> {
+        const conditions: string[] = []
+        const values: any[] = []
+
+        if (filters.mediaIds?.length) {
+            values.push(filters.mediaIds)
+            conditions.push(`mediaId = ANY($${values.length})`)
+        }
+
+        if (filters.userIds?.length) {
+            values.push(filters.userIds)
+            conditions.push(`"user" = ANY($${values.length})`)
+        }
+
+        if (filters.type) {
+            values.push(filters.type)
+            conditions.push(`type = $${values.length}`)
+        }
+
+        if (filters.fromDate) {
+            values.push(filters.fromDate)
+            conditions.push(`date >= $${values.length}`)
+        }
+
+        if (filters.toDate) {
+            values.push(filters.toDate)
+            conditions.push(`date <= $${values.length}`)
+        }
+
+        const query = `
+        SELECT * FROM status
+        ${conditions.length ? 'WHERE ' + conditions.join(' AND ') : ''}
+        `
+
+        const res = await pool.query(query, values)
+        return res.rows.map(this.map)
+    }
 }

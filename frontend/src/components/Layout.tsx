@@ -28,6 +28,12 @@ export default function Layout({
         onSearch?.(query)
     }
 
+    const columns = [
+        user?.type === 'admin' ? '200px' : null,
+        '1fr',
+        rightPanel ? '300px' : null
+    ].filter(Boolean).join(' ')
+
     return (
         <div style={styles.wrapper}>
 
@@ -51,7 +57,10 @@ export default function Layout({
             </div>
         </div>
 
-        <div style={styles.container}>
+        <div style={{
+            ...styles.container,
+            gridTemplateColumns: columns
+        }}>
             {user?.type === 'admin' && (
                 <aside style={styles.sidebar}>
                 <h3>New Media</h3>
@@ -107,11 +116,9 @@ const styles = {
     },
     container: {
         display: 'grid',
-        gridTemplateColumns: '200px 1fr auto',
         flex: 1
     },
     sidebar: {
-        width: '200px',
         background: '#eee',
         padding: '10px'
     },

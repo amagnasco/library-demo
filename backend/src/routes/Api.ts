@@ -100,6 +100,24 @@ export default class ApiCTR {
                     if (!item) return res.sendStatus(404)
                         res.json(item)
                 }
+            },
+
+            {
+                method: 'post',
+                path: '/status/read-all',
+                handler: async (req, res) => {
+                    const { mediaIds, userIds, type, fromDate, toDate } = req.body
+
+                    const items = await statusService.readAll({
+                        mediaIds,
+                        userIds,
+                        type,
+                        fromDate,
+                        toDate
+                    })
+
+                    res.json(items)
+                }
             }
 
         ]

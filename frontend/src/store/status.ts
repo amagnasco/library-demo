@@ -18,12 +18,23 @@ export const statusModel = {
     }),
 
     checkout: thunk(async (actions, mediaId: number) => {
-        await DefaultService.createStatus({
-            requestBody: {
-                media_id: mediaId,
-                type: 'checkout'
-            }
+        await DefaultService.postStatus({
+            media_id: mediaId,
+            type: 'loaned'
         })
         actions.fetchByMedia(mediaId)
-    })
+    }),
+
+    returnMedia: thunk(async (actions, mediaId: number) => {
+        await DefaultService.postStatus({
+            media_id: mediaId,
+            type: 'returned'
+        })
+        actions.fetchByMedia(mediaId)
+    }),
+
+    fetchAll: thunk(async (actions) => {
+        const data = await DefaultService.postStatusReadAll({})
+        actions.set(data.map(mapStatus))
+    }),
 }
