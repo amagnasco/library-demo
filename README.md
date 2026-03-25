@@ -4,7 +4,7 @@ by Alessandro G. Magnasco 2026, AGPLv3
 > This is a full stack demo library management app. It showcases a simple setup that was solo written in a few hours. This is NOT intended to be a secured production application and does not contain SSL.
 
 ### Stack:
-- Front: Node.js, Typescript, React.js, EasyPeasy, i18n (en/es/fr)
+- Front: Node.js, Typescript, React.js, EasyPeasy, i18n (en/es/fr), Vite
 - Back: NGINX, Express.js, Postgres, OpenAPI
 - Docker
 
