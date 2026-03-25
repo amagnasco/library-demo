@@ -22,8 +22,8 @@ by Alessandro G. Magnasco 2026, AGPLv3
 - [x] The collection is searchable by text fields or by tags.
 
 ### Accounts:
-- Librarian: alice/nevermore
-- Patrons: bob/dublin, charlie/mississippi
+- Librarian: username: alice (pass: nevermore)
+- Patrons: bob (dublin), charlie (mississippi)
 
 ### Roadmap:
 - [x] project set up
